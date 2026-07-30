@@ -1,0 +1,37 @@
+name: replace-with-project-name
+deck: deck.html
+transcript: transcript.md
+pronunciations: pronunciations.yaml
+build_dir: ../../build/template
+speech:
+  region: japanwest
+  voice: en-US-AndrewMultilingualNeural
+  output_format: riff-24khz-16bit-mono-pcm
+  rate: "+0%"
+  env_file: .env
+  key_env: AZURE_SPEECH_KEY
+  timeout_seconds: 45
+  retries: 8
+pauses:
+  leading: 0.8
+  sentence: 0.28
+  paragraph: 0.55
+  trailing: 0.9
+captions:
+  font: Arial
+  font_size: 34
+  max_chars_per_line: 92
+  margin_horizontal: 110
+  margin_vertical: 54
+video:
+  width: 1920
+  height: 1080
+  fps: 30
+  codec: libx264
+  preset: medium
+  crf: 18
+  transition_seconds: 0.15
+capture:
+  hide_selectors: []
+  settle_ms: 1000
+focus_cues: []

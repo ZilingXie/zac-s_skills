@@ -10,6 +10,7 @@ Each skill lives in its own top-level folder and includes a required `SKILL.md` 
 
 - `jira-csd`: Create, read, comment on, attach files to, and resolve Jira CSD issues through Agora Lab APIs.
 - `ai2earn`: Reusable skill content for the AI2Earn workflow.
+- `build-html-training-video`: Convert static HTML decks and per-slide narration into Microsoft Speech narrated MP4s with sentence captions and media QA.
 
 ## Maintenance
 

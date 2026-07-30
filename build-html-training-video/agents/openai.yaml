@@ -1,0 +1,4 @@
+interface:
+  display_name: "HTML Training Video"
+  short_description: "Build captioned MP4s from HTML and narration"
+  default_prompt: "Use $build-html-training-video to turn my HTML slide deck and per-slide narration into a captioned MP4."
