@@ -1,6 +1,6 @@
 ---
 name: build-html-training-video
-description: Use when converting a static HTML slide deck and per-slide narration into a Microsoft Speech narrated MP4 with sentence-level burned captions on Apple Silicon macOS, including technical-term pronunciation normalization, chapter metadata, media QA, and resumable caching.
+description: Use when converting a static HTML slide deck and per-slide narration into a Microsoft Speech narrated MP4 with sentence-level burned captions on macOS or Linux, including technical-term pronunciation normalization, chapter metadata, media QA, and resumable caching.
 ---
 
 # Build HTML Training Video
@@ -12,7 +12,7 @@ Turn an HTML presentation and per-slide Markdown narration into a captioned MP4.
 1. Read [`references/input-contract.md`](references/input-contract.md).
 2. Verify that the source is a static deck whose slides already exist in the DOM. Do not modify the user's originals.
 3. Copy `.env.example` to `.env` in this skill folder and have the user provide `AZURE_SPEECH_KEY`. Never print or commit the key.
-4. Run `scripts/setup.sh` once on the Apple Silicon Mac.
+4. Run `scripts/setup.sh` once on the macOS or Linux host.
 5. Create a working project:
 
 ```bash
@@ -49,4 +49,3 @@ scripts/training-video --project /absolute/path/video-project build \
 - Never place the key in YAML, command arguments, logs, manifests, or final responses.
 - Stop before TTS if the HTML, transcript, assets, slide count, selectors, or spoken-text validation fails.
 - Do not claim support for React applications, authenticated pages, or decks that load slides from runtime APIs. Export those to a static HTML deck first.
-

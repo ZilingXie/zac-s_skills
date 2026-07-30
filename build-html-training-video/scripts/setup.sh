@@ -4,10 +4,14 @@ set -euo pipefail
 skill_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 pipeline_dir="$skill_dir/scripts/pipeline"
 
-if [[ "$(uname -s)" != "Darwin" || "$(uname -m)" != "arm64" ]]; then
-  echo "error: build-html-training-video supports Apple Silicon macOS only" >&2
-  exit 1
-fi
+host_system="$(uname -s)"
+case "$host_system" in
+  Darwin|Linux) ;;
+  *)
+    echo "error: build-html-training-video supports macOS and Linux; got $host_system" >&2
+    exit 1
+    ;;
+esac
 
 for command_name in uv ffmpeg ffprobe curl; do
   if ! command -v "$command_name" >/dev/null 2>&1; then

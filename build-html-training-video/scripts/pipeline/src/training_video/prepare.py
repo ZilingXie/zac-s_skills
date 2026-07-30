@@ -15,6 +15,12 @@ from .transcript import parse_transcript
 from .utils import sha256_file
 
 
+def validate_supported_platform() -> None:
+    system = platform.system()
+    if system not in {"Darwin", "Linux"}:
+        raise RuntimeError(f"This release supports macOS and Linux; got {system} {platform.machine()}")
+
+
 def deck_slides(path: Path) -> list[tuple[int, str]]:
     soup = BeautifulSoup(path.read_text(encoding="utf-8"), "html.parser")
     result: list[tuple[int, str]] = []
@@ -29,10 +35,7 @@ def deck_slides(path: Path) -> list[tuple[int, str]]:
 
 
 def validate_project_inputs(project_dir: Path, config) -> dict[str, object]:
-    if platform.system() != "Darwin" or platform.machine() != "arm64":
-        raise RuntimeError(
-            f"This release supports Apple Silicon macOS only; got {platform.system()} {platform.machine()}"
-        )
+    validate_supported_platform()
     missing_tools = [tool for tool in ("ffmpeg", "ffprobe", "curl") if not shutil.which(tool)]
     if missing_tools:
         raise FileNotFoundError(f"Missing required command-line tools: {missing_tools}")
@@ -94,7 +97,9 @@ def validate_project_inputs(project_dir: Path, config) -> dict[str, object]:
         "environment": {
             "system": platform.system(),
             "machine": platform.machine(),
-            "macos": platform.mac_ver()[0],
+            "os_version": platform.mac_ver()[0]
+            if platform.system() == "Darwin"
+            else platform.release(),
             "chromium_executable": str(chromium_path),
         },
         "input_hashes": {
