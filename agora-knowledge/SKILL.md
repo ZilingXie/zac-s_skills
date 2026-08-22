@@ -11,20 +11,6 @@ It replaces the old Cognee `agora-memory` ingestion workflow, but writes to the
 
 Before any durable write, read `references/ingestion-workflow.md`.
 
-## MCP Installation
-
-This skill needs the `agora-knowledge` MCP server. Ask the memory owner for a
-personal `username:token`, then follow the guide for your client:
-
-```text
-references/install-codex.md    Codex (token-in-env pattern)
-references/install-zcode.md    ZCode
-references/install-verify.md   connection verification
-```
-
-Read users get `agora_knowledge_schema` + `agora_knowledge_search`;
-`agora_knowledge_save` appears only for users granted write by the operator.
-
 ## Required Boundary
 
 Use only `agora_knowledge_save` for approved durable writes.
@@ -91,11 +77,9 @@ stable unique phrase
 Search the likely target project first. Search adjacent projects when relevant:
 
 ```text
-product <-> sdk
-troubleshooting <-> cases
-sop <-> troubleshooting
-docs <-> architecture
-docs <-> sdk
+how-to <-> troubleshoot
+troubleshoot <-> case
+case <-> general
 ```
 
 Treat results as candidates, not automatic duplicates.
@@ -129,21 +113,56 @@ names in concepts, tags, facets, or the body instead of inventing a new scope.
 ## Project Quick Map
 
 ```text
-product           product capabilities, limits, billing, console behavior
-sdk               SDK/API behavior, parameters, platforms, versions
-troubleshooting   errors, logs, diagnosis paths
-cases             sanitized support/customer/investigation summaries
-sop               procedures and runbooks
-docs              PRD, HLD, LLD, test plans, document summaries
-architecture      Agora-related topology and system design
-other             temporary holding area only
+how-to         how to use or do something: usage, parameters, procedures, runbooks
+troubleshoot   diagnostic knowledge: error meanings, symptom -> cause -> fix paths
+case           sanitized support/customer/investigation summaries (what happened)
+general        cross-domain knowledge: doc summaries, architecture notes, general facts
 ```
 
-For Cognee migration:
+Routing principle: pick the project by the seeker's scenario (how do I do it /
+how do I debug it / what happened), then pick the type by content form.
+
+## Types
 
 ```text
-agora_shared  -> product, sdk, troubleshooting, or sop
-agora_cases   -> cases
-agora_docs    -> docs, architecture, or sdk
+fact          one-statement truth: error code meanings, parameter behavior, doc points
+bug           incident knowledge with process: symptom, root cause, verified fix
+pattern       a rule or best practice seen at least twice
+architecture  structure, topology, design decisions
+other         fallback
+```
+
+## Facets
+
+```text
+Required (server rejects the save if missing):
+  author, operation, source_kind, sanitization, product
+
+Optional but recommended:
+  reference      ticket/doc/PR links or ids
+  sdk_version    SDK version the knowledge applies to
+```
+
+`product` is a free-form value for now (e.g. rtc, cloud-recording, argus);
+values will be consolidated after a run-in period. Search supports
+`product` as an exact filter.
+
+Worked example — "error code 1234 means the server is down":
+
+```text
+project:   troubleshoot          <- seekers hit this while debugging
+type:      fact                  <- a lookup statement, not an incident record
+facets:    product=<owning product> + the governance four
+concepts:  ["error-1234", "error-code", "server-error"]  <- the code itself MUST be a concept
+content:   category:error-code-reference; scope:project:troubleshoot; status:current;
+           confidence:0.95; source:doc; date:<today>. Error code 1234 means server-side failure.
+```
+
+For Cognee migration history:
+
+```text
+agora_shared  -> how-to or troubleshoot
+agora_cases   -> case
+agora_docs    -> general
 agora_archive -> original project with status=deprecated or supersedes_old
 ```

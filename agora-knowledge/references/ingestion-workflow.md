@@ -5,17 +5,18 @@ Use this reference before calling `agora_knowledge_save`.
 ## Canonical Projects
 
 ```text
-product
-sdk
-troubleshooting
-cases
-sop
-docs
-architecture
-other
+how-to
+troubleshoot
+case
+general
 ```
 
-Use `other` only as a temporary holding area.
+Routing principle: pick the project by the seeker's scenario (how do I do
+it / how do I debug it / what happened / none of these). Pick the type by
+content form: fact, bug, pattern, architecture, other.
+
+Required facets: author, operation, source_kind, sanitization, product.
+Recommended optional facets: reference (ticket/doc/PR links), sdk_version.
 
 ## Cognee Mapping
 
@@ -23,15 +24,13 @@ Cognee used datasets. AgentMemory uses projects.
 
 ```text
 agora_shared:
-  Choose product, sdk, troubleshooting, or sop by future recall purpose.
+  Choose how-to or troubleshoot by future recall purpose.
 
 agora_cases:
-  Use cases.
+  Use case.
 
 agora_docs:
-  Use docs by default.
-  Use architecture for topology/design.
-  Use sdk for API/SDK docs.
+  Use general.
 
 agora_archive:
   Keep the original project.
@@ -252,7 +251,7 @@ Avoid silent overwrite behavior.
 The wrapper audit log is:
 
 ```text
-the server-side audit log (maintained by the MCP operator)
+/home/ubuntu/projects/memory-architecture/logs/agora-knowledge-audit.jsonl
 ```
 
 Audit may include project/type/status/source/counts/hashes/memory id/success.
