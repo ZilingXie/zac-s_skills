@@ -1,0 +1,11 @@
+interface:
+  display_name: "Agora Knowledge"
+  short_description: "Governed Agora knowledge ingestion"
+  default_prompt: "Use $agora-knowledge to review and save this Agora knowledge safely."
+dependencies:
+  tools:
+    - type: "mcp"
+      value: "agora-knowledge"
+      description: "Agora Knowledge AgentMemory MCP"
+policy:
+  allow_implicit_invocation: true
